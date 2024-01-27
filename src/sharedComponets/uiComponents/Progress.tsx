@@ -6,6 +6,7 @@ interface ProgressProps {
 }
 
 const Progress: React.FC<ProgressProps> = ({ value, total }) => {
+  console.log(value);
 
   return (
     <div className="flex h-2 overflow-hidden bg-gray-700 rounded">

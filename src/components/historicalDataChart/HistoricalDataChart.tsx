@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Wrapper } from "./HistoricalDataChart.styled";
-import StatisticsDisplay from "../statisticsDisplay/StatisticsDisplay";
+import { useLocation } from "react-use";
 
 ChartJS.register(
   CategoryScale,
@@ -36,31 +36,13 @@ export const options = {
   },
 };
 
-// const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-// export const data = {
-//   labels,
-//   datasets: [
-//     {
-//       label: "Dataset 1",
-//       data: "ppp",
-//       borderColor: "rgb(255, 99, 132)",
-//       backgroundColor: "rgba(255, 99, 132, 0.5)",
-//     },
-//     {
-//       label: "Dataset 2",
-//       data: "ffff",
-//       borderColor: "rgb(53, 162, 235)",
-//       backgroundColor: "rgba(53, 162, 235, 0.5)",
-//     },
-//   ],
-// };
 
 const HistoricalDataChart = ({ data }: { data: any }) => {
-  // console.log(data.map((entry: any) => entry.date));
+  const location = useLocation();
+  const pathname = location.pathname; // Access the pathname property
 
   const chartData = {
-    labels: data.map((entry: any) => entry.date),
+    labels: data.map((entry: any) => entry?.dateChecked?.slice(0, 10)),
     datasets: [
       {
         label: "Positive Cases",
@@ -69,14 +51,28 @@ const HistoricalDataChart = ({ data }: { data: any }) => {
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
       },
+      {
+        label: "Negative Cases",
+        data: data.map((entry: any) => entry.negative),
+        fill: false,
+        borderColor: "rgb(48, 123, 123)",
+        tension: 0.1,
+      },
     ],
   };
 
+
+
   return (
-    <div className="w-[60vw]">
-      <StatisticsDisplay data={data} />
+    <div
+      className={`${
+        pathname === "/comparison"
+          ? "mobileScreen:max-w-[80vw] max-w-[90vw]"
+          : "w-[60vw] mobileScreen:max-w-[90vw]"
+      }`}
+    >
       <Wrapper>
-        <Line options={options} data={chartData} />;
+        <Line options={options} data={chartData} />
       </Wrapper>
     </div>
   );

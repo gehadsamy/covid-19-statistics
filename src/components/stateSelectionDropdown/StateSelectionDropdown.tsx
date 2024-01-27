@@ -1,8 +1,7 @@
-// StateSelectionDropdown.tsx
 import React, { ChangeEvent, useEffect } from "react";
 
 interface StateSelectionDropdownProps {
-  states: string[];
+  states: Array<Record<string, any>>;
   onSelect: (stateCode: string) => void;
 }
 

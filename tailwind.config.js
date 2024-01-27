@@ -3,9 +3,12 @@ export default {
   purge: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'mobileScreen': {'max': '500px'},
+      },
+    },
   },
   variants: {},
   plugins: [],
 }
-

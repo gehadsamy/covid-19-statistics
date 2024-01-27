@@ -1,15 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import covidDataReducer from './slices/covidDataSlice';
+import covidData from './slices/covidDataSlice';
 
 const store = configureStore({
   reducer: {
-    covidData: covidDataReducer,
+    covidData,
   },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 
-// This is where you define AppThunk
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,

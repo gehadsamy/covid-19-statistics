@@ -1,15 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getAllStatesData, getSpecificStateData } from '../../api/axiosInstance';
 import { AppThunk } from '../store';
+import { fetchData } from '../../api/crudApiOperation';
 
 interface CovidDataState {
-    data: any; // Replace 'any' with the shape of your data
+    data: Record<string, any>;
+    historicalData: Array<Record<string, any>>;
+    states: Array<Record<string, any>>;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: CovidDataState = {
-    data: [],
+    data: {},
+    historicalData: [],
+    states: [],
     status: 'idle',
     error: null,
 };
@@ -21,35 +25,40 @@ export const covidDataSlice = createSlice({
         fetchDataStart: (state) => {
             state.status = 'loading';
         },
-        fetchDataSuccess: (state, action: PayloadAction<any>) => { // Replace 'any' with the shape of your data
+        fetchDataSuccess: (state, action: PayloadAction<any>) => {
             state.status = 'succeeded';
-            state.data = action.payload;
+            state.data = action.payload.data;
+            state.historicalData = action.payload.historicalData;
         },
         fetchDataFailure: (state, action: PayloadAction<string>) => {
             state.status = 'failed';
             state.error = action.payload;
         },
+        fetchStatesSuccess: (state, action: PayloadAction<any>) => {
+            state.states = action.payload;
+        },
     },
 });
 
-export const { fetchDataStart, fetchDataSuccess, fetchDataFailure } = covidDataSlice.actions;
+export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, fetchStatesSuccess } = covidDataSlice.actions;
 
-export const fetchAllStatesData = (): AppThunk => async (dispatch) => {
+export const fetchCovidData = (current: string, historical: string): AppThunk => async (dispatch) => {
     try {
         dispatch(fetchDataStart());
-        const data = await getAllStatesData();
-        dispatch(fetchDataSuccess(data));
-    } catch (err) {
+        const data = await fetchData(current)
+        const finalData = current.startsWith("us") ? data[0] : data
+        const historicalData = await fetchData(historical)
+        dispatch(fetchDataSuccess({data: finalData, historicalData}));
+    } catch (err: any) {
         dispatch(fetchDataFailure(err.toString()));
     }
 };
 
-export const fetchSpecificStateData = (stateCode: string): AppThunk => async (dispatch) => {
+export const fetchAllStatesData = (): AppThunk => async (dispatch) => {
     try {
-        dispatch(fetchDataStart());
-        const data = await getSpecificStateData(stateCode);
-        dispatch(fetchDataSuccess(data));
-    } catch (err) {
+        const data = await fetchData('states/current.json')
+        dispatch(fetchStatesSuccess(data));
+    } catch (err: any) {
         dispatch(fetchDataFailure(err.toString()));
     }
 };

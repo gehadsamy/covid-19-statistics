@@ -1,19 +1,32 @@
-import React, { ReactNode } from 'react';
-import ContentLoader, { IContentLoaderProps } from 'react-content-loader';
+import React from "react";
+import styled, { keyframes } from "styled-components";
 
-interface LoaderProps extends IContentLoaderProps {
-  children?: ReactNode;
-}
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
 
-const Loader: React.FC<LoaderProps> = ({ children, ...rest }) => {
+const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+`;
+
+const StyledLoader = styled.div`
+  border: 10px solid #111827;
+  border-top: 10px solid #14b8a6;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: ${spin} 2s linear infinite;
+`;
+
+const Loader = () => {
   return (
-    <ContentLoader
-      backgroundColor="#252f3f"
-      foregroundColor="#374151"
-      {...rest}
-    >
-      {children}
-    </ContentLoader>
+    <LoaderContainer>
+      <StyledLoader />
+    </LoaderContainer>
   );
 };
 
