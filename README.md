@@ -16,7 +16,7 @@ This project is a modular and scalable React application for displaying and anal
 
 ## Setup Instructions
 
-1. Clone the repository: `git clone `
+1. Clone the repository: `git clone https://github.com/gehadsamy/covid-19-statistics.git`
 2. Navigate to the project directory: `cd covid-19-statistics`
 3. Install the dependencies: `npm install`
 4. Start the development server: `npm run dev`
@@ -28,4 +28,4 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-For any questions or concerns, please contact <your-email>.
+For any questions or concerns, please contact gehadsamy96@gmail.com.
