@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import DataComparisonModule from "../../components/dataComparisonModule/DataComparisonModule";
 import { FaSun, FaMoon } from "react-icons/fa";
 
-import Home from "../home/Home";
 import {
   useAppDispatch,
   useAppSelector,
@@ -16,6 +14,10 @@ import { Button, DashboardHeader } from "./DashBoaard.styled";
 import { useLocation } from "react-use";
 import Loader from "../../sharedComponets/uiComponents/Loader";
 
+const Home = lazy(() => import("../home/Home"));
+const DataComparisonModule = lazy(
+  () => import("../../components/dataComparisonModule/DataComparisonModule")
+);
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentData = useAppSelector((state) => state.covidData);
@@ -38,7 +40,6 @@ const Dashboard: React.FC = () => {
     setDarkMode(!darkMode);
   };
 
-
   const handleStateSelection = (stateCode: string) => {
     setSelectedState(stateCode);
   };
@@ -56,6 +57,7 @@ const Dashboard: React.FC = () => {
   const resetDashboard = () => {
     setSelectedState("");
   };
+
   return (
     <Router>
       <section

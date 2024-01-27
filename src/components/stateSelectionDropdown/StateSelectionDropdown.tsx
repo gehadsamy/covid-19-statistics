@@ -10,12 +10,10 @@ const StateSelectionDropdown: React.FC<StateSelectionDropdownProps> = ({
   onSelect,
 }) => {
   const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value.toLowerCase());
 
     onSelect(e.target.value.toLowerCase());
   };
   useEffect(() => {
-    console.log(states);
   });
   return (
     <div>
