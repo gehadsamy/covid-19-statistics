@@ -1,3 +1,4 @@
+// Dashboard.tsx
 import React, { lazy, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { FaSun, FaMoon } from "react-icons/fa";
@@ -18,14 +19,13 @@ const Home = lazy(() => import("../home/Home"));
 const DataComparisonModule = lazy(
   () => import("../../components/dataComparisonModule/DataComparisonModule")
 );
+
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentData = useAppSelector((state) => state.covidData);
   const [selectedState, setSelectedState] = useState<string>("");
   const [darkMode, setDarkMode] = useState(false);
 
-  const [selectedStatesForComparison, setSelectedStatesForComparison] =
-    useState<string[]>([]);
   useEffect(() => {
     const prefix = selectedState
       ? `states/${selectedState.toLowerCase()}`
@@ -36,8 +36,15 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     dispatch(fetchAllStatesData());
   }, [dispatch]);
+
   const toggleMode = () => {
     setDarkMode(!darkMode);
+
+    if (darkMode) {
+      document.body.classList.remove("daxrk");
+    } else {
+      document.body.classList.add("dark");
+    }
   };
 
   const handleStateSelection = (stateCode: string) => {
@@ -61,8 +68,14 @@ const Dashboard: React.FC = () => {
   return (
     <Router>
       <section
-        className="grid w-screen min-h-screen overflow-hidden antialiased text-gray-300 bg-gray-900"
-        style={{ gridTemplateRows: "auto 1fr auto" }}
+        className={`grid w-screen min-h-screen overflow-hidden antialiased  bg-${
+          darkMode ? "dark" : "light"
+        }-${darkMode ? "900" : "100"}`}
+        style={{
+          gridTemplateRows: "auto 1fr auto",
+          backgroundColor: darkMode ? "#1F2937" : "#F3F4F6",
+          color: darkMode ? "#F3F4F6" : "#1F2937",
+        }}
       >
         <DashboardHeader>
           <Link
@@ -92,6 +105,7 @@ const Dashboard: React.FC = () => {
                     currentData.status === "loading" ||
                     currentData.status === "idle"
                   }
+                  darkMode={darkMode}
                   selectedState={selectedState}
                   onSelectState={handleStateSelection}
                   statesDailyData={statesDailyData}
@@ -102,7 +116,12 @@ const Dashboard: React.FC = () => {
 
             <Route
               path="/comparison"
-              element={<DataComparisonModule data={currentData.states} />}
+              element={
+                <DataComparisonModule
+                  data={currentData.states}
+                  darkMode={darkMode}
+                />
+              }
             />
           </Routes>
         </React.Suspense>

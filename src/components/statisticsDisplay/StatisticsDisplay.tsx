@@ -22,7 +22,7 @@ const StatisticsDisplay: React.FC<StatisticsDisplayProps> = ({
   }
   return (
     <>
-      <div className="mt-4">
+      <div className="">
         <div className="flex py-2">
           {" "}
           Choose the range

@@ -12,10 +12,12 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface DataComparisonModuleProps {
   data: any[];
+  darkMode: boolean;
 }
 
 const DataComparisonModule: React.FC<DataComparisonModuleProps> = ({
   data,
+  darkMode,
 }) => {
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
   const [comparisonData, setComparisonData] = useState<any[]>([]);
@@ -84,7 +86,12 @@ const DataComparisonModule: React.FC<DataComparisonModuleProps> = ({
           </h4>
           <div className="overflow-x-auto max-w-[90vw] mobileScreen:max-w-[80vw]">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-[#38b2ac] text-white">
+              <thead
+                className="bg-[#38b2ac]"
+                style={{
+                  color: darkMode ? "#1F2937" : "#F3F4F6",
+                }}
+              >
                 <tr>
                   <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase md:text-sm">
                     State

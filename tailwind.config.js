@@ -1,14 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   purge: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
-  darkMode: false,
+  darkMode: 'class', // This enables dark mode
   theme: {
     extend: {
-      screens: {
-        'mobileScreen': {'max': '500px'},
+      colors: {
+        light: '#F3F4F6', // Light mode color
+        dark: '#1F2937',  // Dark mode color
       },
     },
   },
-  variants: {},
+  variants: {
+    extend: {},
+  },
   plugins: [],
 }

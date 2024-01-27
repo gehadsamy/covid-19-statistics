@@ -12,6 +12,7 @@ interface SidebarProps {
   selectedState: string;
   onSelectState: (state: string) => void;
   windowSize: any;
+  darkMode: any;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -19,6 +20,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   selectedState,
   onSelectState,
   windowSize,
+  darkMode,
 }) => {
   const [sortAscending, setSortAscending] = useState(true);
   const [filterBy, setFilterBy] = useState("positive");
@@ -64,15 +66,24 @@ const Sidebar: React.FC<SidebarProps> = ({
         <h2>States Data</h2>
         <div className="flex items-center">
           <select
-            className="p-2 mr-2 text-gray-900 border border-gray-300 rounded"
+            className="p-2 mr-2 border border-gray-300 rounded"
             value={filterBy}
             onChange={handleFilterChange}
+            style={{
+              color: darkMode ? "#F3F4F6" : "#1F2937",
+              backgroundColor: darkMode ? "#1F2937 " : "#F3F4F6",
+            }}
           >
             <option value="positive">Positive Cases</option>
             <option value="negative">Negative Cases</option>
             <option value="death">Death</option> {/* Add death option */}
           </select>
-          <button onClick={handleSort} className="text-gray-600">
+          <button
+            onClick={handleSort}
+            style={{
+              color: darkMode ? "#F3F4F6" : "#1F2937",
+            }}
+          >
             {sortAscending ? <FaSortAmountUp /> : <FaSortAmountDown />}
           </button>
         </div>
@@ -83,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <button
               className={`p-4 w-full text-sm text-left focus:outline-none transition duration-150 ease-in-out ${
                 selectedState === stateData.state.state ? "bg-gray-800" : ""
-              } hover:bg-gray-800`}
+              } hover:bg-slate-400 hover:text-white`}
               type="button"
               onClick={() => onSelectState(stateData.state.state)}
             >

@@ -15,6 +15,7 @@ interface HomeProps {
   onSelectState: (state: string) => void;
   statesDailyData: Record<string, any[]>;
   updateChartData?: any;
+  darkMode: any;
 }
 
 const Home: React.FC<HomeProps> = ({
@@ -24,6 +25,7 @@ const Home: React.FC<HomeProps> = ({
   selectedState,
   onSelectState,
   statesDailyData,
+  darkMode,
 }) => {
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 600);
   const [showDateRange, setShowDateRange] = useState(false);
@@ -89,6 +91,7 @@ const Home: React.FC<HomeProps> = ({
           statesData={statesData}
           selectedState={selectedState || ""}
           onSelectState={onSelectState}
+          darkMode={darkMode}
         />
       )}
 
